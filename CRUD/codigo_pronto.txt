@@ -1,0 +1,425 @@
+# Sistema CRUD de Tarefas - Código Pronto
+
+## Arquivos Principais
+
+### db_setup.py
+```python
+import sqlite3
+
+def create_database():
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS tasks (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            employee TEXT NOT NULL,
+            function TEXT NOT NULL,
+            location TEXT NOT NULL,
+            task TEXT NOT NULL,
+            priority TEXT NOT NULL,
+            status TEXT NOT NULL,
+            start_date TEXT,
+            end_date TEXT,
+            responsible TEXT NOT NULL,
+            created_date TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+if __name__ == "__main__":
+    create_database()
+```
+
+### crud.py
+```python
+import sqlite3
+
+def insert_task(employee, function, location, task, priority, status, start_date, end_date, responsible):
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO tasks (employee, function, location, task, priority, status, start_date, end_date, responsible)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (employee, function, location, task, priority, status, start_date, end_date, responsible))
+    conn.commit()
+    conn.close()
+
+def get_all_tasks():
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks')
+    tasks = cursor.fetchall()
+    conn.close()
+    return tasks
+
+def update_task(id, employee, function, location, task, priority, status, start_date, end_date, responsible):
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE tasks SET employee=?, function=?, location=?, task=?, priority=?, status=?, start_date=?, end_date=?, responsible=?
+        WHERE id=?
+    ''', (employee, function, location, task, priority, status, start_date, end_date, responsible, id))
+    conn.commit()
+    conn.close()
+
+def delete_task(id):
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM tasks WHERE id=?', (id,))
+    conn.commit()
+    conn.close()
+
+def search_tasks(query):
+    conn = sqlite3.connect('tasks.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks WHERE task LIKE ? OR employee LIKE ?', ('%' + query + '%', '%' + query + '%'))
+    tasks = cursor.fetchall()
+    conn.close()
+    return tasks
+```
+
+### main.py
+```python
+import db_setup
+import crud
+
+db_setup.create_database()
+
+def menu():
+    while True:
+        print("\nSistema CRUD de Tarefas")
+        print("1. Inserir tarefa")
+        print("2. Listar tarefas")
+        print("3. Atualizar tarefa")
+        print("4. Excluir tarefa")
+        print("5. Buscar tarefas")
+        print("6. Sair")
+        choice = input("Escolha uma opção: ")
+        if choice == '1':
+            employee = input("Funcionário: ")
+            function = input("Função: ")
+            location = input("Local: ")
+            task = input("Tarefa: ")
+            priority = input("Prioridade: ")
+            status = input("Status: ")
+            start_date = input("Data de início (YYYY-MM-DD): ")
+            end_date = input("Data de término (YYYY-MM-DD): ")
+            responsible = input("Responsável: ")
+            crud.insert_task(employee, function, location, task, priority, status, start_date, end_date, responsible)
+            print("Tarefa inserida!")
+        elif choice == '2':
+            tasks = crud.get_all_tasks()
+            if tasks:
+                for t in tasks:
+                    print(f"ID: {t[0]}, Funcionário: {t[1]}, Função: {t[2]}, Local: {t[3]}, Tarefa: {t[4]}, Prioridade: {t[5]}, Status: {t[6]}, Início: {t[7]}, Fim: {t[8]}, Responsável: {t[9]}, Criado: {t[10]}")
+            else:
+                print("Nenhuma tarefa encontrada.")
+        elif choice == '3':
+            id = int(input("ID da tarefa a atualizar: "))
+            employee = input("Novo Funcionário: ")
+            function = input("Nova Função: ")
+            location = input("Novo Local: ")
+            task = input("Nova Tarefa: ")
+            priority = input("Nova Prioridade: ")
+            status = input("Novo Status: ")
+            start_date = input("Nova Data de início (YYYY-MM-DD): ")
+            end_date = input("Nova Data de término (YYYY-MM-DD): ")
+            responsible = input("Novo Responsável: ")
+            crud.update_task(id, employee, function, location, task, priority, status, start_date, end_date, responsible)
+            print("Tarefa atualizada!")
+        elif choice == '4':
+            id = int(input("ID da tarefa a excluir: "))
+            crud.delete_task(id)
+            print("Tarefa excluída!")
+        elif choice == '5':
+            query = input("Buscar por tarefa ou funcionário: ")
+            tasks = crud.search_tasks(query)
+            if tasks:
+                for t in tasks:
+                    print(f"ID: {t[0]}, Funcionário: {t[1]}, Função: {t[2]}, Local: {t[3]}, Tarefa: {t[4]}, Prioridade: {t[5]}, Status: {t[6]}, Início: {t[7]}, Fim: {t[8]}, Responsável: {t[9]}, Criado: {t[10]}")
+            else:
+                print("Nenhuma tarefa encontrada.")
+        elif choice == '6':
+            break
+        else:
+            print("Opção inválida")
+
+if __name__ == "__main__":
+    menu()
+```
+
+### gui.py
+```python
+import tkinter as tk
+from tkinter import messagebox
+import crud
+import db_setup
+
+db_setup.create_database()
+
+def main_menu():
+    root = tk.Tk()
+    root.title("Sistema CRUD de Tarefas")
+    root.geometry("300x300")
+
+    tk.Label(root, text="Menu Principal", font=("Arial", 16)).pack(pady=20)
+
+    tk.Button(root, text="Inserir Tarefa", command=insert_screen, width=20).pack(pady=5)
+    tk.Button(root, text="Consultar Tarefas", command=query_screen, width=20).pack(pady=5)
+    tk.Button(root, text="Atualizar Tarefa", command=update_screen, width=20).pack(pady=5)
+    tk.Button(root, text="Excluir Tarefa", command=delete_screen, width=20).pack(pady=5)
+    tk.Button(root, text="Sair", command=root.quit, width=20).pack(pady=5)
+
+    root.mainloop()
+
+def insert_screen():
+    window = tk.Toplevel()
+    window.title("Inserir Tarefa")
+    window.geometry("400x400")
+
+    tk.Label(window, text="Funcionário:").grid(row=0, column=0, padx=10, pady=5)
+    employee_entry = tk.Entry(window, width=30)
+    employee_entry.grid(row=0, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Função:").grid(row=1, column=0, padx=10, pady=5)
+    function_entry = tk.Entry(window, width=30)
+    function_entry.grid(row=1, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Local:").grid(row=2, column=0, padx=10, pady=5)
+    location_entry = tk.Entry(window, width=30)
+    location_entry.grid(row=2, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Tarefa:").grid(row=3, column=0, padx=10, pady=5)
+    task_entry = tk.Entry(window, width=30)
+    task_entry.grid(row=3, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Prioridade:").grid(row=4, column=0, padx=10, pady=5)
+    priority_entry = tk.Entry(window, width=30)
+    priority_entry.grid(row=4, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Status:").grid(row=5, column=0, padx=10, pady=5)
+    status_entry = tk.Entry(window, width=30)
+    status_entry.grid(row=5, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Data de início (YYYY-MM-DD):").grid(row=6, column=0, padx=10, pady=5)
+    start_date_entry = tk.Entry(window, width=30)
+    start_date_entry.grid(row=6, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Data de término (YYYY-MM-DD):").grid(row=7, column=0, padx=10, pady=5)
+    end_date_entry = tk.Entry(window, width=30)
+    end_date_entry.grid(row=7, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Responsável:").grid(row=8, column=0, padx=10, pady=5)
+    responsible_entry = tk.Entry(window, width=30)
+    responsible_entry.grid(row=8, column=1, padx=10, pady=5)
+
+    def submit():
+        try:
+            crud.insert_task(
+                employee_entry.get(),
+                function_entry.get(),
+                location_entry.get(),
+                task_entry.get(),
+                priority_entry.get(),
+                status_entry.get(),
+                start_date_entry.get(),
+                end_date_entry.get(),
+                responsible_entry.get()
+            )
+            messagebox.showinfo("Sucesso", "Tarefa inserida com sucesso!")
+            window.destroy()
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao inserir: {str(e)}")
+
+    tk.Button(window, text="Inserir", command=submit).grid(row=9, column=1, pady=20)
+
+def query_screen():
+    window = tk.Toplevel()
+    window.title("Consultar Tarefas")
+    window.geometry("600x400")
+
+    text = tk.Text(window, wrap=tk.WORD)
+    text.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
+
+    tasks = crud.get_all_tasks()
+    if tasks:
+        for t in tasks:
+            text.insert(tk.END, f"ID: {t[0]}, Funcionário: {t[1]}, Função: {t[2]}, Local: {t[3]}, Tarefa: {t[4]}, Prioridade: {t[5]}, Status: {t[6]}, Início: {t[7]}, Fim: {t[8]}, Responsável: {t[9]}, Criado: {t[10]}\n\n")
+    else:
+        text.insert(tk.END, "Nenhuma tarefa encontrada.")
+
+def update_screen():
+    window = tk.Toplevel()
+    window.title("Atualizar Tarefa")
+    window.geometry("400x500")
+
+    tk.Label(window, text="ID da tarefa:").grid(row=0, column=0, padx=10, pady=5)
+    id_entry = tk.Entry(window, width=30)
+    id_entry.grid(row=0, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Novo Funcionário:").grid(row=1, column=0, padx=10, pady=5)
+    employee_entry = tk.Entry(window, width=30)
+    employee_entry.grid(row=1, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Nova Função:").grid(row=2, column=0, padx=10, pady=5)
+    function_entry = tk.Entry(window, width=30)
+    function_entry.grid(row=2, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Novo Local:").grid(row=3, column=0, padx=10, pady=5)
+    location_entry = tk.Entry(window, width=30)
+    location_entry.grid(row=3, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Nova Tarefa:").grid(row=4, column=0, padx=10, pady=5)
+    task_entry = tk.Entry(window, width=30)
+    task_entry.grid(row=4, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Nova Prioridade:").grid(row=5, column=0, padx=10, pady=5)
+    priority_entry = tk.Entry(window, width=30)
+    priority_entry.grid(row=5, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Novo Status:").grid(row=6, column=0, padx=10, pady=5)
+    status_entry = tk.Entry(window, width=30)
+    status_entry.grid(row=6, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Nova Data de início:").grid(row=7, column=0, padx=10, pady=5)
+    start_date_entry = tk.Entry(window, width=30)
+    start_date_entry.grid(row=7, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Nova Data de término:").grid(row=8, column=0, padx=10, pady=5)
+    end_date_entry = tk.Entry(window, width=30)
+    end_date_entry.grid(row=8, column=1, padx=10, pady=5)
+
+    tk.Label(window, text="Novo Responsável:").grid(row=9, column=0, padx=10, pady=5)
+    responsible_entry = tk.Entry(window, width=30)
+    responsible_entry.grid(row=9, column=1, padx=10, pady=5)
+
+    def submit():
+        try:
+            crud.update_task(
+                int(id_entry.get()),
+                employee_entry.get(),
+                function_entry.get(),
+                location_entry.get(),
+                task_entry.get(),
+                priority_entry.get(),
+                status_entry.get(),
+                start_date_entry.get(),
+                end_date_entry.get(),
+                responsible_entry.get()
+            )
+            messagebox.showinfo("Sucesso", "Tarefa atualizada com sucesso!")
+            window.destroy()
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao atualizar: {str(e)}")
+
+    tk.Button(window, text="Atualizar", command=submit).grid(row=10, column=1, pady=20)
+
+def delete_screen():
+    window = tk.Toplevel()
+    window.title("Excluir Tarefa")
+    window.geometry("300x150")
+
+    tk.Label(window, text="ID da tarefa a excluir:").grid(row=0, column=0, padx=10, pady=10)
+    id_entry = tk.Entry(window, width=20)
+    id_entry.grid(row=0, column=1, padx=10, pady=10)
+
+    def submit():
+        try:
+            crud.delete_task(int(id_entry.get()))
+            messagebox.showinfo("Sucesso", "Tarefa excluída com sucesso!")
+            window.destroy()
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao excluir: {str(e)}")
+
+    tk.Button(window, text="Excluir", command=submit).grid(row=1, column=1, pady=10)
+
+if __name__ == "__main__":
+    main_menu()
+```
+
+### app.py
+```python
+from flask import Flask, render_template, request, redirect, url_for
+import crud
+import db_setup
+
+app = Flask(__name__)
+db_setup.create_database()
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/insert', methods=['GET', 'POST'])
+def insert():
+    if request.method == 'POST':
+        crud.insert_task(
+            request.form['employee'],
+            request.form['function'],
+            request.form['location'],
+            request.form['task'],
+            request.form['priority'],
+            request.form['status'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['responsible']
+        )
+        return redirect(url_for('list_tasks'))
+    return render_template('insert.html')
+
+@app.route('/list')
+def list_tasks():
+    tasks = crud.get_all_tasks()
+    return render_template('list.html', tasks=tasks)
+
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    if request.method == 'POST':
+        crud.update_task(
+            id,
+            request.form['employee'],
+            request.form['function'],
+            request.form['location'],
+            request.form['task'],
+            request.form['priority'],
+            request.form['status'],
+            request.form['start_date'],
+            request.form['end_date'],
+            request.form['responsible']
+        )
+        return redirect(url_for('list_tasks'))
+    task = crud.get_all_tasks()
+    task = next((t for t in task if t[0] == id), None)
+    return render_template('update.html', task=task)
+
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
+def delete(id):
+    if request.method == 'POST':
+        crud.delete_task(id)
+        return redirect(url_for('list_tasks'))
+    task = crud.get_all_tasks()
+    task = next((t for t in task if t[0] == id), None)
+    return render_template('delete.html', task=task)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+## Templates HTML (resumidos)
+
+Os templates estão em templates/ com estilos modernos.
+
+## Scripts Auxiliares
+
+- sample_data.py: Insere dados de exemplo.
+- list_tasks.py: Lista tarefas.
+
+## Como Executar
+
+1. python db_setup.py
+2. Terminal: python main.py
+3. GUI: python gui.py
+4. Web: python app.py (http://localhost:5000)
+
+Sistema completo com CRUD, Tkinter e Flask!

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Inserir Tarefa</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.5);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inserir Tarefa</h1>
+        <form method="POST">
+            <div class="form-group">
+                <label>Funcionário:</label>
+                <input type="text" name="employee" required>
+            </div>
+            <div class="form-group">
+                <label>Função:</label>
+                <input type="text" name="function" required>
+            </div>
+            <div class="form-group">
+                <label>Local:</label>
+                <input type="text" name="location" required>
+            </div>
+            <div class="form-group">
+                <label>Tarefa:</label>
+                <input type="text" name="task" required>
+            </div>
+            <div class="form-group">
+                <label>Prioridade:</label>
+                <input type="text" name="priority" required>
+            </div>
+            <div class="form-group">
+                <label>Status:</label>
+                <input type="text" name="status" required>
+            </div>
+            <div class="form-group">
+                <label>Data de início (YYYY-MM-DD):</label>
+                <input type="text" name="start_date">
+            </div>
+            <div class="form-group">
+                <label>Data de término (YYYY-MM-DD):</label>
+                <input type="text" name="end_date">
+            </div>
+            <div class="form-group">
+                <label>Responsável:</label>
+                <input type="text" name="responsible" required>
+            </div>
+            <button type="submit">Inserir</button>
+        </form>
+        <a href="/" target="_blank" class="back-link">Voltar ao Menu</a>
+    </div>
+</body>
+</html>
