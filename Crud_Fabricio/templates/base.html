@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CRUD de Fretes{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header class="topo">
+        <h1>Sistema CRUD de Fretes</h1>
+        <nav>
+            <a href="{{ url_for('tela_principal') }}">Principal</a>
+            <a href="{{ url_for('tela_consultar') }}">Consultar</a>
+            <a href="{{ url_for('tela_inserir') }}">Inserir</a>
+            <a href="{{ url_for('tela_excluir') }}">Excluir</a>
+            <a href="{{ url_for('tela_atualizar') }}">Atualizar</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if mensagem %}
+            <div class="mensagem">{{ mensagem }}</div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Consultar Fretes{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Tela para Consultar</h2>
+
+    {% if fretes %}
+    <div class="tabela-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Caminhao</th>
+                    <th>Motorista</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Carga</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                    <th>Entrega</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for f in fretes %}
+                <tr>
+                    <td>{{ f.id }}</td>
+                    <td>{{ f.caminhao }}</td>
+                    <td>{{ f.motorista }}</td>
+                    <td>{{ f.origem }}</td>
+                    <td>{{ f.destino }}</td>
+                    <td>{{ f.carga }}</td>
+                    <td>R$ {{ '%.2f'|format(f.valor) }}</td>
+                    <td>{{ f.status }}</td>
+                    <td>{{ f.data_entrega }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Nenhum frete cadastrado.</p>
+    {% endif %}
+</section>
+{% endblock %}

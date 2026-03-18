@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Inserir Frete{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Tela para Inserir Dados</h2>
+    <form method="post" class="formulario">
+        <label>Caminhao <input type="text" name="caminhao" required></label>
+        <label>Motorista <input type="text" name="motorista" required></label>
+        <label>Origem <input type="text" name="origem" required></label>
+        <label>Destino <input type="text" name="destino" required></label>
+        <label>Carga <input type="text" name="carga" required></label>
+        <label>Valor (R$) <input type="text" name="valor" required></label>
+        <label>Status <input type="text" name="status" required></label>
+        <label>Data de entrega <input type="date" name="data_entrega" required></label>
+        <button type="submit">Salvar frete</button>
+    </form>
+</section>
+{% endblock %}

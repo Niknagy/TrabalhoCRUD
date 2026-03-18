@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Excluir Frete{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Tela para Excluir Dados</h2>
+
+    <form method="post" class="linha-form">
+        <input type="hidden" name="acao" value="buscar">
+        <label>ID do frete <input type="number" name="frete_id" min="1" required></label>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if frete %}
+    <div class="resumo">
+        <p><strong>ID:</strong> {{ frete.id }}</p>
+        <p><strong>Caminhao:</strong> {{ frete.caminhao }}</p>
+        <p><strong>Motorista:</strong> {{ frete.motorista }}</p>
+        <p><strong>Rota:</strong> {{ frete.origem }} -> {{ frete.destino }}</p>
+    </div>
+
+    <form method="post">
+        <input type="hidden" name="acao" value="excluir">
+        <input type="hidden" name="frete_id" value="{{ frete.id }}">
+        <button class="perigo" type="submit">Confirmar exclusao</button>
+    </form>
+    {% endif %}
+</section>
+{% endblock %}

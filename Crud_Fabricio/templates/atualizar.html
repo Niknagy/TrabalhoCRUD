@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Atualizar Frete{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Tela para Atualizar Dados</h2>
+
+    <form method="post" class="linha-form">
+        <input type="hidden" name="acao" value="buscar">
+        <label>ID do frete <input type="number" name="frete_id" min="1" required></label>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if frete %}
+    <form method="post" class="formulario">
+        <input type="hidden" name="acao" value="salvar">
+        <input type="hidden" name="frete_id" value="{{ frete.id }}">
+        <label>Caminhao <input type="text" name="caminhao" value="{{ frete.caminhao }}" required></label>
+        <label>Motorista <input type="text" name="motorista" value="{{ frete.motorista }}" required></label>
+        <label>Origem <input type="text" name="origem" value="{{ frete.origem }}" required></label>
+        <label>Destino <input type="text" name="destino" value="{{ frete.destino }}" required></label>
+        <label>Carga <input type="text" name="carga" value="{{ frete.carga }}" required></label>
+        <label>Valor (R$) <input type="text" name="valor" value="{{ frete.valor }}" required></label>
+        <label>Status <input type="text" name="status" value="{{ frete.status }}" required></label>
+        <label>Data de entrega <input type="date" name="data_entrega" value="{{ frete.data_entrega }}" required></label>
+        <button type="submit">Salvar alteracoes</button>
+    </form>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Tela Principal{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Tela Principal</h2>
+    <p>Escolha uma opcao para gerenciar os fretes.</p>
+    <div class="acoes">
+        <a class="botao" href="{{ url_for('tela_consultar') }}">Consultar dados</a>
+        <a class="botao" href="{{ url_for('tela_inserir') }}">Inserir dados</a>
+        <a class="botao" href="{{ url_for('tela_excluir') }}">Excluir dados</a>
+        <a class="botao" href="{{ url_for('tela_atualizar') }}">Atualizar dados</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,150 @@
+:root {
+    --bg: #f1f5f9;
+    --paper: #ffffff;
+    --line: #d6dee8;
+    --text: #1f2a36;
+    --brand: #0b5cab;
+    --brand-strong: #0a4d90;
+    --danger: #b42318;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: linear-gradient(180deg, #f7fafc, #edf2f7);
+    color: var(--text);
+}
+
+.topo {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 18px 24px;
+}
+
+.topo h1 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.acoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.botao,
+button {
+    display: inline-block;
+    border: none;
+    border-radius: 8px;
+    background: var(--brand);
+    color: #fff;
+    padding: 10px 14px;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.botao:hover,
+button:hover {
+    background: var(--brand-strong);
+}
+
+.perigo {
+    background: var(--danger);
+}
+
+.formulario {
+    display: grid;
+    gap: 12px;
+    max-width: 560px;
+}
+
+.formulario label,
+.linha-form label {
+    display: grid;
+    gap: 4px;
+    font-weight: 600;
+}
+
+input {
+    border: 1px solid #b5c1cf;
+    border-radius: 6px;
+    padding: 9px 10px;
+    font-size: 0.95rem;
+}
+
+.linha-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: end;
+}
+
+.mensagem {
+    background: #e9f5ff;
+    border: 1px solid #b5d9fa;
+    color: #073763;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+}
+
+.tabela-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #d7dfe8;
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background: #f3f7fb;
+}
+
+.resumo {
+    margin: 14px 0;
+    padding: 10px;
+    border: 1px solid #d8e1ea;
+    border-radius: 8px;
+    background: #fafcff;
+}
