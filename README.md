@@ -1,4 +1,4 @@
-# TrabalhoCRUD
+# Trabalho CRUD
 Trabalho CRUD do Laboratório de DEVWEB
 
 Projetos do CRUD requisitado pelo professor Renato de Pierri
