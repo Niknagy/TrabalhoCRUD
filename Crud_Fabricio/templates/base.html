@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}CRUD de Fretes{% endblock %}</title>
+    <meta name="description" content="Sistema CRUD profissional para gerenciamento de fretes">
+    <meta name="theme-color" content="#2563eb">
+    <title>{% block title %}CRUD de Fretes{% endblock %} - Sistema de Gerenciamento</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header class="topo">
         <h1>Sistema CRUD de Fretes</h1>
-        <nav>
-            <a href="{{ url_for('tela_principal') }}">Principal</a>
-            <a href="{{ url_for('tela_consultar') }}">Consultar</a>
-            <a href="{{ url_for('tela_inserir') }}">Inserir</a>
-            <a href="{{ url_for('tela_excluir') }}">Excluir</a>
-            <a href="{{ url_for('tela_atualizar') }}">Atualizar</a>
+        <nav role="navigation">
+            <a href="{{ url_for('tela_principal') }}" title="Voltar à página principal">🏠 Principal</a>
+            <a href="{{ url_for('tela_consultar') }}" title="Visualizar todos os fretes">📋 Consultar</a>
+            <a href="{{ url_for('tela_inserir') }}" title="Cadastrar novo frete">➕ Inserir</a>
+            <a href="{{ url_for('tela_excluir') }}" title="Remover um frete">🗑️ Excluir</a>
+            <a href="{{ url_for('tela_atualizar') }}" title="Modificar dados do frete">✏️ Atualizar</a>
         </nav>
     </header>
 
-    <main class="container">
+    <main class="container" role="main">
         {% if mensagem %}
-            <div class="mensagem">{{ mensagem }}</div>
+            <div class="mensagem" role="alert">{{ mensagem }}</div>
         {% endif %}
         {% block content %}{% endblock %}
     </main>
+
+    <footer style="text-align: center; padding: 24px; color: var(--color-text-light); font-size: 0.9rem; margin-top: 40px; border-top: 1px solid var(--color-border);">
+        <p>&copy; 2026 Sistema de Gerenciamento de Fretes. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

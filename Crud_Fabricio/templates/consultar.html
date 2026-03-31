@@ -4,43 +4,65 @@
 
 {% block content %}
 <section class="card">
-    <h2>Tela para Consultar</h2>
+    <h2>📋 Consultar Fretes Cadastrados</h2>
+    <p>Visualize todos os fretes do sistema com informações completas.</p>
 
     {% if fretes %}
-    <div class="tabela-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Caminhao</th>
-                    <th>Motorista</th>
-                    <th>Origem</th>
-                    <th>Destino</th>
-                    <th>Carga</th>
-                    <th>Valor</th>
-                    <th>Status</th>
-                    <th>Entrega</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for f in fretes %}
-                <tr>
-                    <td>{{ f.id }}</td>
-                    <td>{{ f.caminhao }}</td>
-                    <td>{{ f.motorista }}</td>
-                    <td>{{ f.origem }}</td>
-                    <td>{{ f.destino }}</td>
-                    <td>{{ f.carga }}</td>
-                    <td>R$ {{ '%.2f'|format(f.valor) }}</td>
-                    <td>{{ f.status }}</td>
-                    <td>{{ f.data_entrega }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        <p style="margin-bottom: 16px; color: var(--color-text-light);">
+            <strong>Total de fretes:</strong> {{ fretes|length }}
+        </p>
+        
+        <div class="tabela-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Caminhão</th>
+                        <th>Motorista</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Carga</th>
+                        <th>Valor</th>
+                        <th>Status</th>
+                        <th>Data de Entrega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in fretes %}
+                    <tr>
+                        <td><strong>#{{ f.id }}</strong></td>
+                        <td>{{ f.caminhao }}</td>
+                        <td>{{ f.motorista }}</td>
+                        <td>
+                            <span title="Origem">📍 {{ f.origem }}</span>
+                        </td>
+                        <td>
+                            <span title="Destino">🎯 {{ f.destino }}</span>
+                        </td>
+                        <td>{{ f.carga }}</td>
+                        <td><strong>R$ {{ '%.2f'|format(f.valor) }}</strong></td>
+                        <td>
+                            <span class="badge {% if f.status == 'Entregue' %}entregue{% elif f.status == 'Pendente' %}pendente{% elif f.status == 'Ativo' %}ativo{% else %}inativo{% endif %}">
+                                {{ f.status }}
+                            </span>
+                        </td>
+                        <td>
+                            📅 {{ f.data_entrega }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
-    <p>Nenhum frete cadastrado.</p>
+        <div style="text-align: center; padding: 40px; background: var(--color-bg); border-radius: 8px; margin-top: 20px;">
+            <p style="font-size: 1.1rem; color: var(--color-text-light);">
+                📭 Nenhum frete cadastrado no sistema.
+            </p>
+            <a class="botao sucesso" href="{{ url_for('tela_inserir') }}" style="margin-top: 16px;">
+                ➕ Cadastrar Primeiro Frete
+            </a>
+        </div>
     {% endif %}
 </section>
 {% endblock %}

@@ -4,27 +4,140 @@
 
 {% block content %}
 <section class="card">
-    <h2>Tela para Atualizar Dados</h2>
+    <h2>✏️ Atualizar Dados do Frete</h2>
+    <p>Digite o ID do frete que deseja atualizar para começar.</p>
 
-    <form method="post" class="linha-form">
+    <form method="post" class="linha-form" style="margin-bottom: 24px;">
         <input type="hidden" name="acao" value="buscar">
-        <label>ID do frete <input type="number" name="frete_id" min="1" required></label>
-        <button type="submit">Buscar</button>
+        <div>
+            <label for="frete_id">🔍 ID do Frete *</label>
+            <input 
+                type="number" 
+                id="frete_id"
+                name="frete_id" 
+                min="1" 
+                required
+                placeholder="Ex: 1"
+                title="Digite o número identificador do frete"
+            >
+        </div>
+        <button type="submit" class="botao" style="align-self: flex-end;">
+            🔎 Buscar
+        </button>
     </form>
 
     {% if frete %}
+    <div style="background: var(--color-bg); border-left: 4px solid var(--color-primary); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+        <p style="margin: 0;"><strong>📦 Frete encontrado:</strong> {{ frete.caminhao }} - {{ frete.motorista }}</p>
+    </div>
+
     <form method="post" class="formulario">
         <input type="hidden" name="acao" value="salvar">
         <input type="hidden" name="frete_id" value="{{ frete.id }}">
-        <label>Caminhao <input type="text" name="caminhao" value="{{ frete.caminhao }}" required></label>
-        <label>Motorista <input type="text" name="motorista" value="{{ frete.motorista }}" required></label>
-        <label>Origem <input type="text" name="origem" value="{{ frete.origem }}" required></label>
-        <label>Destino <input type="text" name="destino" value="{{ frete.destino }}" required></label>
-        <label>Carga <input type="text" name="carga" value="{{ frete.carga }}" required></label>
-        <label>Valor (R$) <input type="text" name="valor" value="{{ frete.valor }}" required></label>
-        <label>Status <input type="text" name="status" value="{{ frete.status }}" required></label>
-        <label>Data de entrega <input type="date" name="data_entrega" value="{{ frete.data_entrega }}" required></label>
-        <button type="submit">Salvar alteracoes</button>
+
+        <div>
+            <label for="caminhao">🚛 Caminhão *</label>
+            <input 
+                type="text" 
+                id="caminhao"
+                name="caminhao" 
+                value="{{ frete.caminhao }}"
+                required
+                placeholder="Ex: Volvo FH 16"
+            >
+        </div>
+
+        <div>
+            <label for="motorista">👤 Motorista *</label>
+            <input 
+                type="text" 
+                id="motorista"
+                name="motorista" 
+                value="{{ frete.motorista }}"
+                required
+                placeholder="Ex: João Silva"
+            >
+        </div>
+
+        <div class="linha-form">
+            <div>
+                <label for="origem">📍 Origem *</label>
+                <input 
+                    type="text" 
+                    id="origem"
+                    name="origem" 
+                    value="{{ frete.origem }}"
+                    required
+                    placeholder="Ex: São Paulo - SP"
+                >
+            </div>
+            <div>
+                <label for="destino">🎯 Destino *</label>
+                <input 
+                    type="text" 
+                    id="destino"
+                    name="destino" 
+                    value="{{ frete.destino }}"
+                    required
+                    placeholder="Ex: Rio de Janeiro - RJ"
+                >
+            </div>
+        </div>
+
+        <div>
+            <label for="carga">📦 Carga *</label>
+            <input 
+                type="text" 
+                id="carga"
+                name="carga" 
+                value="{{ frete.carga }}"
+                required
+                placeholder="Ex: 2500 kg de mercadoria"
+            >
+        </div>
+
+        <div class="linha-form">
+            <div>
+                <label for="valor">💰 Valor (R$) *</label>
+                <input 
+                    type="text" 
+                    id="valor"
+                    name="valor" 
+                    value="{{ frete.valor }}"
+                    required
+                    placeholder="Ex: 1500.00"
+                >
+            </div>
+            <div>
+                <label for="status">📊 Status *</label>
+                <select id="status" name="status" required>
+                    <option value="Ativo" {% if frete.status == 'Ativo' %}selected{% endif %}>Ativo</option>
+                    <option value="Pendente" {% if frete.status == 'Pendente' %}selected{% endif %}>Pendente</option>
+                    <option value="Entregue" {% if frete.status == 'Entregue' %}selected{% endif %}>Entregue</option>
+                    <option value="Cancelado" {% if frete.status == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label for="data_entrega">📅 Data de Entrega *</label>
+            <input 
+                type="date" 
+                id="data_entrega"
+                name="data_entrega" 
+                value="{{ frete.data_entrega }}"
+                required
+            >
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px;">
+            <button type="submit" class="botao sucesso">
+                ✅ Salvar Alterações
+            </button>
+            <a href="{{ url_for('tela_atualizar') }}" class="botao secundario" style="text-align: center;">
+                🔄 Buscar Outro
+            </a>
+        </div>
     </form>
     {% endif %}
 </section>

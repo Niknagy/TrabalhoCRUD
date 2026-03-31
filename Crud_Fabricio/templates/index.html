@@ -1,16 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}Tela Principal{% endblock %}
+{% block title %}Página Principal{% endblock %}
 
 {% block content %}
 <section class="card">
-    <h2>Tela Principal</h2>
-    <p>Escolha uma opcao para gerenciar os fretes.</p>
+    <h2>🚚 Bem-vindo ao Sistema de Fretes</h2>
+    <p>Gerencie seus fretes de forma simples, rápida e profissional. Escolha uma opção abaixo para começar.</p>
+    
     <div class="acoes">
-        <a class="botao" href="{{ url_for('tela_consultar') }}">Consultar dados</a>
-        <a class="botao" href="{{ url_for('tela_inserir') }}">Inserir dados</a>
-        <a class="botao" href="{{ url_for('tela_excluir') }}">Excluir dados</a>
-        <a class="botao" href="{{ url_for('tela_atualizar') }}">Atualizar dados</a>
+        <a class="botao" href="{{ url_for('tela_consultar') }}" title="Visualizar todos os fretes cadastrados">
+            📋 Consultar Dados
+        </a>
+        <a class="botao sucesso" href="{{ url_for('tela_inserir') }}" title="Cadastrar novo frete">
+            ➕ Inserir Dados
+        </a>
+        <a class="botao" href="{{ url_for('tela_atualizar') }}" title="Editar informações de um frete">
+            ✏️ Atualizar Dados
+        </a>
+        <a class="botao perigo" href="{{ url_for('tela_excluir') }}" title="Remover um frete do sistema">
+            🗑️ Excluir Dados
+        </a>
+    </div>
+
+    <div class="grid-cards" style="margin-top: 40px;">
+        <div class="stat-card">
+            <div class="stat-card-value">📦</div>
+            <div class="stat-card-label">Fretes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card-value">🎯</div>
+            <div class="stat-card-label">Gestão</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card-value">⚡</div>
+            <div class="stat-card-label">Rápido</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-card-value">🔒</div>
+            <div class="stat-card-label">Seguro</div>
+        </div>
     </div>
 </section>
 {% endblock %}

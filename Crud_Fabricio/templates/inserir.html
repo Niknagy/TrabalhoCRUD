@@ -1,20 +1,115 @@
 {% extends "base.html" %}
 
-{% block title %}Inserir Frete{% endblock %}
+{% block title %}Inserir Novo Frete{% endblock %}
 
 {% block content %}
 <section class="card">
-    <h2>Tela para Inserir Dados</h2>
-    <form method="post" class="formulario">
-        <label>Caminhao <input type="text" name="caminhao" required></label>
-        <label>Motorista <input type="text" name="motorista" required></label>
-        <label>Origem <input type="text" name="origem" required></label>
-        <label>Destino <input type="text" name="destino" required></label>
-        <label>Carga <input type="text" name="carga" required></label>
-        <label>Valor (R$) <input type="text" name="valor" required></label>
-        <label>Status <input type="text" name="status" required></label>
-        <label>Data de entrega <input type="date" name="data_entrega" required></label>
-        <button type="submit">Salvar frete</button>
+    <h2>➕ Cadastrar Novo Frete</h2>
+    <p>Preencha todos os campos abaixo para registrar um novo frete no sistema.</p>
+    
+    <form method="post" class="formulario" novalidate>
+        <div>
+            <label for="caminhao">🚛 Caminhão *</label>
+            <input 
+                type="text" 
+                id="caminhao"
+                name="caminhao" 
+                placeholder="Ex: Volvo FH 16"
+                required
+                title="Digite a placa ou modelo do caminhão"
+            >
+        </div>
+
+        <div>
+            <label for="motorista">👤 Motorista *</label>
+            <input 
+                type="text" 
+                id="motorista"
+                name="motorista" 
+                placeholder="Ex: João Silva"
+                required
+                title="Nome completo do motorista"
+            >
+        </div>
+
+        <div class="linha-form">
+            <div>
+                <label for="origem">📍 Origem *</label>
+                <input 
+                    type="text" 
+                    id="origem"
+                    name="origem" 
+                    placeholder="Ex: São Paulo - SP"
+                    required
+                    title="Cidade/Estado de origem"
+                >
+            </div>
+            <div>
+                <label for="destino">🎯 Destino *</label>
+                <input 
+                    type="text" 
+                    id="destino"
+                    name="destino" 
+                    placeholder="Ex: Rio de Janeiro - RJ"
+                    required
+                    title="Cidade/Estado de destino"
+                >
+            </div>
+        </div>
+
+        <div>
+            <label for="carga">📦 Carga *</label>
+            <input 
+                type="text" 
+                id="carga"
+                name="carga" 
+                placeholder="Ex: 2500 kg de mercadoria"
+                required
+                title="Descrição e peso da carga"
+            >
+        </div>
+
+        <div class="linha-form">
+            <div>
+                <label for="valor">💰 Valor (R$) *</label>
+                <input 
+                    type="text" 
+                    id="valor"
+                    name="valor" 
+                    placeholder="Ex: 1500.00"
+                    required
+                    title="Valor do frete em reais. Use ponto ou vírgula"
+                >
+            </div>
+            <div>
+                <label for="status">📊 Status *</label>
+                <select id="status" name="status" required title="Situação atual do frete">
+                    <option value="">-- Selecione uma opção --</option>
+                    <option value="Ativo">Ativo</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Entregue">Entregue</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label for="data_entrega">📅 Data de Entrega *</label>
+            <input 
+                type="date" 
+                id="data_entrega"
+                name="data_entrega" 
+                required
+                title="Data prevista para entrega"
+            >
+        </div>
+
+        <button type="submit" class="botao sucesso">
+            ✅ Salvar Frete
+        </button>
+        <a href="{{ url_for('tela_consultar') }}" class="botao secundario" style="text-align: center;">
+            ↩️ Voltar
+        </a>
     </form>
 </section>
 {% endblock %}
